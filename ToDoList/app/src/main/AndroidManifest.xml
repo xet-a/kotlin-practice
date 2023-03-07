@@ -9,10 +9,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ToDoList"
+        android:theme="@style/Theme.ToDoList.Splash"
         tools:targetApi="31">
         <activity
             android:name=".view.MainActivity"
+            android:theme="@style/Theme.ToDoList.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
