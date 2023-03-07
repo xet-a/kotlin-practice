@@ -7,13 +7,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.databinding.ItemTodoBinding
 import com.example.todolist.model.ToDoModel
+import com.example.todolist.view.helper.OnToDoItemClickListener
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ToDoAdapter: RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
-    private var todoItems = emptyList<ToDoModel>()
+class ToDoAdapter(val deleteItemClick: (ToDoModel) -> Unit)
+    : RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>(), OnToDoItemClickListener {
+    private var todoItems = ArrayList<ToDoModel>()
+
+    override fun onItemMove(from: Int, to: Int): Boolean{
+        val todo: ToDoModel = todoItems[from]
+        todoItems.remove(todoItems[from])
+        todoItems.add(to, todo)
+        setTodoItems(todoItems)
+        notifyItemMoved(from, to)
+        return true
+    }
+
+    override fun onItemSwipe(position: Int) {
+        deleteItemClick(todoItems[position])
+        notifyItemRemoved(position)
+    }
 
     inner class ToDoViewHolder(val binding: ItemTodoBinding): RecyclerView.ViewHolder(binding.root) {
+
         fun bind(todoModel: ToDoModel) {
             binding.todoTitle.text = todoModel.title
             binding.todoDescription.text = todoModel.description
@@ -36,7 +53,7 @@ class ToDoAdapter: RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
     }
 
     fun setTodoItems(todoItems: List<ToDoModel>) {
-        this.todoItems = todoItems
+        this.todoItems = todoItems as ArrayList<ToDoModel>
         Log.e("MainActivity", "todoItem setTodoItems !!: " + todoItems.size);
         notifyDataSetChanged()
     }
