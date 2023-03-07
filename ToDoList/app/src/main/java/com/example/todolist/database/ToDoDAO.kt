@@ -14,4 +14,7 @@ interface ToDoDAO {
 
     @Delete
     fun delete(toDoModel: ToDoModel)
+
+    @Update
+    fun update(toDoModel: ToDoModel)
 }

@@ -34,4 +34,8 @@ class ToDoRepository(application: Application) {
             e.printStackTrace()
         }
     }
+
+    fun update(toDoModel: ToDoModel) {
+        todoDao.update(toDoModel)
+    }
 }
