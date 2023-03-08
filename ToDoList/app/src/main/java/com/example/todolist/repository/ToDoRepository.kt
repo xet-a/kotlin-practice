@@ -15,27 +15,15 @@ class ToDoRepository(application: Application) {
         return todoItems
     }
 
-    fun insert(toDoModel: ToDoModel){
-        try {
-            val thread = Thread(Runnable {
-                todoDao.insert(toDoModel)
-            }).start()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    suspend fun insert(toDoModel: ToDoModel){
+        todoDao.insert(toDoModel)
     }
 
-    fun delete(toDoModel: ToDoModel) {
-        try {
-            val thread = Thread(Runnable {
-                todoDao.delete(toDoModel)
-            }).start()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    suspend fun delete(toDoModel: ToDoModel) {
+        todoDao.delete(toDoModel)
     }
 
-    fun update(toDoModel: ToDoModel) {
+    suspend fun update(toDoModel: ToDoModel) {
         todoDao.update(toDoModel)
     }
 }

@@ -3,8 +3,11 @@ package com.example.todolist.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.example.todolist.model.ToDoModel
 import com.example.todolist.repository.ToDoRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ToDoViewModel(application: Application): AndroidViewModel(application) {
     private val toDoRepository = ToDoRepository(application)
@@ -15,14 +18,20 @@ class ToDoViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun insert(toDoModel: ToDoModel) {
-        toDoRepository.insert(toDoModel)
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.insert(toDoModel)
+        }
     }
 
     fun delete(toDoModel: ToDoModel) {
-        toDoRepository.delete(toDoModel)
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.delete(toDoModel)
+        }
     }
 
     fun update(toDoModel: ToDoModel) {
-        toDoRepository.update(toDoModel)
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.update(toDoModel)
+        }
     }
 }

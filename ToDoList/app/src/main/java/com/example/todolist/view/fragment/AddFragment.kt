@@ -15,9 +15,8 @@ import com.example.todolist.viewmodel.ToDoViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
 
-class AddFragment(): BottomSheetDialogFragment() {
+class AddFragment: BottomSheetDialogFragment() {
     private val toDoViewModel by viewModels<ToDoViewModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

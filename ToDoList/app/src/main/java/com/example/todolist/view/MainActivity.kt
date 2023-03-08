@@ -20,11 +20,7 @@ import com.example.todolist.view.helper.ToDoTouchHelperCallback
 import com.example.todolist.viewmodel.ToDoViewModel
 
 class MainActivity : AppCompatActivity() {
-    private val toDoViewModel by viewModels<ToDoViewModel>()
-    private lateinit var toDoAdapter: ToDoAdapter
-    private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var mainBinding: ActivityMainBinding
-    private lateinit var listBinding: FragmentListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
