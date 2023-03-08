@@ -32,5 +32,7 @@
         <action
             android:id="@+id/action_updateFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <argument android:name="todoItem"
+            app:argType="com.example.todolist.model.ToDoModel" />
     </fragment>
 </navigation>

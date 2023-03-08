@@ -3,10 +3,13 @@ package com.example.todolist.view.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.databinding.ItemTodoBinding
 import com.example.todolist.model.ToDoModel
+import com.example.todolist.view.fragment.ListFragmentDirections
 import com.example.todolist.view.helper.OnToDoItemClickListener
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,11 +34,15 @@ class ToDoAdapter(val deleteItemClick: (ToDoModel) -> Unit)
     }
 
     inner class ToDoViewHolder(val binding: ItemTodoBinding): RecyclerView.ViewHolder(binding.root) {
-
         fun bind(todoModel: ToDoModel) {
             binding.todoTitle.text = todoModel.title
             binding.todoDescription.text = todoModel.description
             binding.todoCreatedDate.text = todoModel.createdDate.toDateString("yyyy.MM.dd HH:mm")
+
+            binding.todoRow.setOnClickListener{
+                val action = ListFragmentDirections.actionListFragmentToUpdateFragment(todoModel)
+                binding.root.findNavController().navigate(action)
+            }
         }
     }
 
