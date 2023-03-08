@@ -1,60 +1,57 @@
 package com.example.todolist.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.todolist.R
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import com.example.todolist.databinding.FragmentUpdateBinding
+import com.example.todolist.model.ToDoModel
+import com.example.todolist.viewmodel.ToDoViewModel
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [UpdateFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class UpdateFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+class UpdateFragment: Fragment() {
+    private val toDoViewModel by viewModels<ToDoViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_update, container, false)
-    }
+        val view = FragmentUpdateBinding.inflate(inflater)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment UpdateFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UpdateFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        val btnOk: Button = view.btnModify
+        val btnClose: Button = view.btnClose
+
+        val addTitle: EditText by lazy {
+            view.modifyTitle
+        }
+        val addContent: EditText by lazy {
+            view.modifyContent
+        }
+
+        btnOk.setOnClickListener {
+            var id: Long? = null
+            val title = addTitle.text.toString()
+            val content = addContent.text.toString()
+            val createdDate = Date().time
+            val toDoModel = ToDoModel(id, title, content, createdDate)
+            toDoViewModel.update(toDoModel)
+
+            Toast.makeText(context, "등록되었습니다.", Toast.LENGTH_SHORT).show()
+//            dismiss()
+            // fragment에 남아있는 값 reset하기
+        }
+        btnClose.setOnClickListener {
+            Toast.makeText(context, "취소되었습니다.", Toast.LENGTH_SHORT).show()
+//            dismiss()
+        }
+
+        return view.root
     }
 }

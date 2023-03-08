@@ -21,6 +21,7 @@ class ToDoAdapter(val deleteItemClick: (ToDoModel) -> Unit)
         todoItems.add(to, todo)
         setTodoItems(todoItems)
         notifyItemMoved(from, to)
+        // TODO: 아직 room에는 반영이 안 됨
         return true
     }
 
@@ -54,7 +55,7 @@ class ToDoAdapter(val deleteItemClick: (ToDoModel) -> Unit)
 
     fun setTodoItems(todoItems: List<ToDoModel>) {
         this.todoItems = todoItems as ArrayList<ToDoModel>
-        Log.e("MainActivity", "todoItem setTodoItems !!: " + todoItems.size);
+        Log.e("Set", "todoItem setTodoItems !!: " + todoItems.size);
         notifyDataSetChanged()
     }
 
