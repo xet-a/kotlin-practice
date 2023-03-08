@@ -31,15 +31,16 @@ class ListFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = FragmentListBinding.inflate(inflater)
-        view.btnAddTodo.setOnClickListener{
-            findNavController().navigate(R.id.addFragment)
-        }
+        listBinding = FragmentListBinding.inflate(inflater)
 
         initViewModel()
         initRecyclerView()
 
-        return view.root
+        listBinding.btnAddTodo.setOnClickListener{
+            findNavController().navigate(R.id.addFragment)
+        }
+
+        return listBinding.root
     }
 
     private fun initViewModel() {
@@ -50,7 +51,6 @@ class ListFragment: Fragment() {
 
     private fun initRecyclerView() {
         toDoAdapter = ToDoAdapter { todo -> deleteDialog(todo) }
-        listBinding = FragmentListBinding.inflate(layoutInflater)
         listBinding.rTodoList.adapter = toDoAdapter
         listBinding.rTodoList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
