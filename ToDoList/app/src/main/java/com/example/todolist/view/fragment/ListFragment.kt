@@ -2,19 +2,19 @@ package com.example.todolist.view.fragment
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
-import com.example.todolist.databinding.ActivityMainBinding
 import com.example.todolist.databinding.FragmentListBinding
+import com.example.todolist.databinding.NaviHeaderBinding
 import com.example.todolist.model.ToDoModel
 import com.example.todolist.view.adapter.ToDoAdapter
 import com.example.todolist.view.helper.ToDoTouchHelperCallback
@@ -25,13 +25,16 @@ class ListFragment: Fragment() {
     private val toDoViewModel by viewModels<ToDoViewModel>()
     private lateinit var toDoAdapter: ToDoAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
-    private lateinit var listBinding: FragmentListBinding
+    private var _listBinding: FragmentListBinding? = null
+    private val listBinding get() = _listBinding!!
+    private lateinit var headerBinding: NaviHeaderBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        listBinding = FragmentListBinding.inflate(inflater)
+        _listBinding = FragmentListBinding.inflate(inflater)
+        headerBinding = NaviHeaderBinding.inflate(inflater)
 
         initViewModel()
         initRecyclerView()
@@ -40,9 +43,20 @@ class ListFragment: Fragment() {
             findNavController().navigate(R.id.addFragment)
         }
 
+        listBinding.todoTitle.setOnClickListener {
+            val left = toDoViewModel.getLeftToDo().value?.size.toString()
+            headerBinding.navItem.text = "this"
+            listBinding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        toDoAdapter.setOnItemClickListener(object : ToDoAdapter.OnItemClickListener{
+            override fun onItemClick(v: View, data: ToDoModel, pos: Int) {
+                toDoViewModel.completed(data)
+            }
+        })
+
         return listBinding.root
     }
-
     private fun initViewModel() {
         toDoViewModel.getToDoList().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             toDoAdapter.setTodoItems(it)

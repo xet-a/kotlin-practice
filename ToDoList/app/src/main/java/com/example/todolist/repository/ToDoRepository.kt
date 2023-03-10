@@ -15,6 +15,14 @@ class ToDoRepository(application: Application) {
         return todoItems
     }
 
+    fun getLeftToDo(): LiveData<List<ToDoModel>> {
+        return todoItems
+    }
+
+    fun getDoneToDo(): LiveData<List<ToDoModel>> {
+        return todoItems
+    }
+
     suspend fun insert(toDoModel: ToDoModel){
         todoDao.insert(toDoModel)
     }

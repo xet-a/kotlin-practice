@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.todolist.model.ToDoModel
 
-@Database(entities = [ToDoModel::class], version = 1)
+@Database(entities = [ToDoModel::class], version = 5)
 abstract class ToDoDatabase: RoomDatabase() {
     abstract fun todoDao(): ToDoDAO
 

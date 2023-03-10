@@ -6,8 +6,14 @@ import com.example.todolist.model.ToDoModel
 
 @Dao
 interface ToDoDAO {
-    @Query("SELECT * FROM ToDo ORDER BY createdDate ASC")
+    @Query("SELECT * FROM ToDo ORDER BY dueDate ASC")
     fun getToDoList(): LiveData<List<ToDoModel>>
+
+    @Query("SELECT * FROM ToDo WHERE completed = 1 ORDER BY dueDate ASC")
+    fun getLeftToDo(): LiveData<List<ToDoModel>>
+
+    @Query("SELECT * FROM ToDo WHERE completed = 0 ORDER BY dueDate ASC")
+    fun getDoneToDo(): LiveData<List<ToDoModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(toDoModel: ToDoModel)

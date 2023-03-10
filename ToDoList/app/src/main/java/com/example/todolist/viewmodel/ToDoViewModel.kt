@@ -17,6 +17,15 @@ class ToDoViewModel(application: Application): AndroidViewModel(application) {
         return todoItems
     }
 
+    fun getLeftToDo(): LiveData<List<ToDoModel>> {
+        return todoItems
+    }
+
+    fun getDoneToDo(): LiveData<List<ToDoModel>> {
+        return todoItems
+    }
+
+
     fun insert(toDoModel: ToDoModel) {
         viewModelScope.launch(Dispatchers.IO) {
             toDoRepository.insert(toDoModel)
@@ -31,6 +40,13 @@ class ToDoViewModel(application: Application): AndroidViewModel(application) {
 
     fun update(toDoModel: ToDoModel) {
         viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.update(toDoModel)
+        }
+    }
+
+    fun completed(toDoModel: ToDoModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if(!toDoModel.completed) toDoModel.completed = true
             toDoRepository.update(toDoModel)
         }
     }
